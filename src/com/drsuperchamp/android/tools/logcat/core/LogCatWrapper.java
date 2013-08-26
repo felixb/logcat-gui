@@ -30,7 +30,7 @@ public class LogCatWrapper {
     private final int STRING_BUFFER_LENGTH;
     private static final Pattern sHeaderPattern = Pattern.compile(
             "^\\[\\s(\\d\\d-\\d\\d\\s\\d\\d:\\d\\d:\\d\\d\\.\\d+)" + //$NON-NLS-1$
-            "\\s+(\\d*):(0x[0-9a-fA-F]+)\\s([VDIWE])/(.*)\\]$"); //$NON-NLS-1$
+            "\\s+(\\d*):\\s*([0-9a-fA-F]+)\\s+([VDIWEF])/(.*)\\]$"); //$NON-NLS-1$
     private LogMessage[] mBuffer;
     private int mBufferEnd;
     private int mBufferStart;

@@ -214,6 +214,8 @@ public class MainFrame extends JFrame implements DeviceConnectionListener {
 			if (filePaths.size() == 0) {
 				System.err
 						.println("could not find adb. Please add it's path to $PATH");
+				System.err
+						.println("if you did not installed android SDK tools yet. please install it: http://d.android.com/sdk/");
 			} else {
 				MainFrame frame = new MainFrame(filePaths.get(0));
 				frame.setVisible(true);
