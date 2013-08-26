@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="jar" name="LogCat-GUI">
+    <property name="source.dir"     value="src"/>
+    <property name="lib.dir"        value="lib"/>
+    <property name="class.dir"      value="bin"/>
+    <property name="jar.dir"        value="dist"/>
+    <property name="shell.dir"      value="cmd"/>
+    <property name="jar.file"       value="${jar.dir}/${ant.project.name}.jar"/>
+    <property name="tar.file"       value="${jar.dir}/${ant.project.name}.tar"/>
+    <property name="main-class"     value="com.drsuperchamp.android.tools.logcat.ui.MainFrame"/>
+
+    <path id="libraries.path">    
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="clean" description="delete old files">
+        <delete dir="${class.dir}"/>
+        <delete dir="${jar.dir}"/>
+    </target>
+
+    <target name="compile" description="build class files" depends="clean">
+        <mkdir dir="${class.dir}"/>
+        <javac srcdir="${source.dir}" destdir="${class.dir}">
+            <classpath refid="libraries.path"/>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <mkdir dir="${class.dir}/${lib.dir}"/>
+        <copy todir="${class.dir}/${lib.dir}" flatten="true">
+            <path refid="libraries.path"/>
+        </copy>
+
+        <manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
+            <classpath refid="libraries.path"/>
+        </manifestclasspath>
+
+        <jar destfile="${jar.file}" basedir="${class.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+                <attribute name="Class-Path" value="${manifest.classpath}"/>
+            </manifest>
+        </jar>  
+    </target>
+
+    <target name="tar" depends="jar">
+        <copy todir="${jar.dir}">
+            <fileset dir="${shell.dir}"/>
+        </copy>
+        <chmod file="${jar.dir}/*sh" perm="755"/>
+        <tar destfile="${tar.file}" basedir="${jar.dir}"/>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+    </target>
+
+</project>
