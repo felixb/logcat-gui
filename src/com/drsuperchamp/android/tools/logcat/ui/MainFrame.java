@@ -33,8 +33,6 @@ public class MainFrame extends JFrame implements DeviceConnectionListener {
 	private LogCatWrapper mLogcat;
 	private JTabbedPane mTabbedPane = null;
 	private JButton mBtnConnect = null;
-	private JButton mBtnAddFilter = null;
-	private JButton mBtnRemoveFilter = null;
 	private List<LogTable> mTables = new ArrayList<LogTable>();
 
 	public MainFrame(String adb_bin_path) {
@@ -57,8 +55,6 @@ public class MainFrame extends JFrame implements DeviceConnectionListener {
 		mBtnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mBtnConnect.setEnabled(false);
-				mBtnAddFilter.setEnabled(true);
-				mBtnRemoveFilter.setEnabled(true);
 
 				removeAllTables(mTabbedPane);
 
@@ -95,14 +91,6 @@ public class MainFrame extends JFrame implements DeviceConnectionListener {
 		});
 		mBtnConnect.setEnabled(false);
 		toolBar.add(mBtnConnect);
-
-		mBtnAddFilter = new JButton("Add a filter");
-		mBtnAddFilter.setEnabled(false);
-		toolBar.add(mBtnAddFilter);
-
-		mBtnRemoveFilter = new JButton("Remove a filter");
-		mBtnRemoveFilter.setEnabled(false);
-		toolBar.add(mBtnRemoveFilter);
 
 		mTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(mTabbedPane, BorderLayout.CENTER);
@@ -182,8 +170,6 @@ public class MainFrame extends JFrame implements DeviceConnectionListener {
 			public void run() {
 				mBtnConnect.setText("No device");
 				mBtnConnect.setEnabled(false);
-				mBtnAddFilter.setEnabled(false);
-				mBtnRemoveFilter.setEnabled(false);
 			}
 		}, true);
 	}
